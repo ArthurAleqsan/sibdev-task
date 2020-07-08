@@ -7,38 +7,30 @@ const layout = {
     wrapperCol: { span: 16 },
 };
 const tailLayout = {
-    wrapperCol: { offset: 4, span: 20 },
+    wrapperCol: { offset: 8, span: 16 },
 };
 
 const Auth = () => {
-    const [form, setForm] = useState({
-        username: '',
-        password: '',
-    });
-    const signIn = () => {
-        console.log({ username: (values.user.email), password: values.password });
-    };
-    const signUp = (values) => {
-        console.log(form);
+    const [isLoginPage, setIsLoginPage] = useState(true)
+    const onFinish = values => {
+        // login({ username: (values.user.email), password: values.password });
     };
 
     const onFinishFailed = errorInfo => {
-        return message.error(errorInfo);        
-    };
-    const handleChange = (d) => {
-        const key = Object.keys(d)[0];
-        setForm({ ...form, [key]: d[key] });
+        return message.error(errorInfo);
     };
     return (
         <div className='auth-container'>
             <div className='form-container'>
+                <div className = 'logo-container'>
+                    <img src = '/assets/images/sibdev-logo.png' /> 
+                </div>
                 <Form
                     {...layout}
                     name="auth"
                     initialValues={{ remember: true }}
-                    onFinish={() => console.log(555)}
-                    onValuesChange={handleChange}
-                    // onFinishFailed={onFinishFailed}
+                    onFinish={onFinish}
+                    onFinishFailed={onFinishFailed}
                 >
                     <Form.Item
                         name={'username'}
@@ -54,13 +46,13 @@ const Auth = () => {
                     >
                         <Input.Password />
                     </Form.Item>
-                    <Form.Item {...tailLayout}>
-                        <Button type="primary" htmlType="button">
-                            Войти
+                    <Form.Item {...tailLayout} className = 'auth-button-container'>
+                        <Button type="primary" htmlType="submit">
+                            {isLoginPage ? 'Войти' : 'Зарегистрироватсья'}
                         </Button>
-                        <Button htmlType="button" onClick={signUp}>
-                            Регистрация
-                        </Button>
+                    </Form.Item>
+                    <Form.Item {...{ wrapperCol: { offset: 4, span: 20 } }} className = 'auth-span-container'>
+                        <span>Или</span> <span onClick={() => setIsLoginPage(!isLoginPage)} className = 'changable-text'>{isLoginPage ? 'Зарегистрироватсья' : 'Войти'}</span>
                     </Form.Item>
                 </Form>
             </div>

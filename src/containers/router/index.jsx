@@ -7,7 +7,7 @@ import App from './App';
 
 const MainRouter = () => {
 
-    const PUBLIC_PATH = '/login';
+    const PUBLIC_PATH = '/auth';
 
     return (
         <div className='main-container'>

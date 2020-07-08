@@ -7,9 +7,29 @@
     .form-container {
         background: #fff;
         padding: 50px;
-        .ant-form-item-control-input-content {
+        .auth-button-container {
+            margin-bottom: 5px;
+        }
+        .auth-span-container {
+            margin-bottom: unset;
+            font-size: 12px;
+            .changable-text {
+                color: #1890ff;
+                cursor: pointer;
+                transition: color ease-in-out 0.4s;
+            }
+            .changable-text:hover {
+                color: #40a9ff;
+            }
+        }
+        .logo-container {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
+            img {
+                width: 90px;
+                height: 90px;
+                object-fit: contain;
+            }
         }
     }
 }
