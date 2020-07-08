@@ -26,7 +26,6 @@ class AuthService extends Request {
             options,
             headers: {
                 "authorization": `Basic NXJxaDFkcXZrN3JmdDdpYjZlaDBhbHY1bXUydjRmOkpKdW00NldvV2NNeW5vVTFDV2xraEw=`,
-                // "content-type": 'application/x-www-form-urlencoded',
             },
         }).then((res) => (res));
     }

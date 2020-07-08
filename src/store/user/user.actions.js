@@ -10,7 +10,7 @@ export const signUp = (data) => {
                 if (AuthService.isOkStatus(res.status)) {
                     return message.success('Вы успешно зарегестрировались, войдите на странчку.');
                 } else {
-                    return message.error(res.json.message);
+                    return message.error('Something is a wrong');
                 }
             })
     }
@@ -24,20 +24,29 @@ export const signIn = (data) => {
                 if (AuthService.isOkStatus(status)) {
                     localStorage.setItem('token', json.access_token);
                     dispatch(getUser());
+                } else {
+                    return message.error('Invalid username or/and password');
                 }
-
-                console.log(res);
 
             })
     }
 };
+
+export const logout = () => {
+    return dispatch => {
+        localStorage.clear();
+        dispatch({
+            type: types.SET_USER,
+            user: null,
+        })
+    }
+}
 
 export const getUser = () => {
     return dispatch => {
         UserService.getUser()
             .then(res => {
                 const { status, json } = res;
-                console.log(res);
                 if (UserService.isOkStatus(status)) {
                     dispatch({
                         type: types.SET_USER,

@@ -1,0 +1,8 @@
+$hiro-color : #1890ff;
+$hover-color: #40a9ff;
+
+
+:root{
+    --hiroColor: #{$hiro-color};
+    --hoverColor: #{$hover-color};
+}

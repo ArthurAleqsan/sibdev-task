@@ -14,12 +14,12 @@
             margin-bottom: unset;
             font-size: 12px;
             .changable-text {
-                color: #1890ff;
+                color: $hiro-color;
                 cursor: pointer;
-                transition: color ease-in-out 0.4s;
+                transition: color ease-in-out 0.3s;
             }
             .changable-text:hover {
-                color: #40a9ff;
+                color: $hover-color;
             }
         }
         .logo-container {
