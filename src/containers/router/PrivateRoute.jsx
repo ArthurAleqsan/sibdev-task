@@ -1,29 +1,18 @@
+/* eslint-disable react/display-name */
  
 import React from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
-
-import { setUser } from '../../store/user/user.actions';
+import { Spin } from 'antd';
 
 const PrivateRoute = ({ component: RouteComponent, user, location, ...rest }) => {
-    const expireDate = localStorage.getItem('accessTokenExpiresAt');
-    const now = new Date().getTime();
-    let isTokenExpired;
-    if (expireDate) {
-        const activeExpiredDate = new Date(expireDate).getTime();
-        if (activeExpiredDate > now) {
-            isTokenExpired = true;
-        }
-    }
     const hasToken = !!localStorage.getItem('token');
     let Component;
-    if (user && isTokenExpired) {
+    if (user) {
         Component = props => (<RouteComponent {...props} />);
+    } else if(hasToken) {
+        Component = () => <Spin />
     } else {
-        localStorage.clear();
-        localStorage.token && window.location.reload();
-        hasToken && window.location.reload();
         Component = () => (
             <Redirect to={{
                 pathname: '/login',
@@ -40,15 +29,5 @@ PrivateRoute.propTypes = {
     location: PropTypes.object,
     rest: PropTypes.object,
 };
-const mapStateToProps = state => {
-    const { user } = state.user;
-    return {
-        user,
-    }
-};
-const mapDispatchToProps = (dispatch) => {
-    return {
-        setUser: (user) => dispatch(setUser(user))
-    }
-}
-export default connect(mapStateToProps, mapDispatchToProps)(PrivateRoute);
+
+export default PrivateRoute;

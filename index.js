@@ -5,6 +5,15 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+const API_URL = 'http://193.124.206.217:3000';
+
+app.use('/auth', (req, res, next) => {
+    next();
+}, proxy({ target: API_URL, changeOrigin: true, }));
+app.use('/users', (req, res, next) => {
+    next();
+}, proxy({ target: API_URL, changeOrigin: true, }));
+
 
 app.use('/public', express.static('public'));
 app.use('/locales', express.static('locales'));
