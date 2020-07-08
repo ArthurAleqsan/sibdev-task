@@ -1,15 +1,15 @@
 import * as types from './../types';
 
 const initialState = {
-    path: window.location.pathname,
+    forms: null,
 };
 
-export const globalReducer = (state = initialState, action) => {
+export const formReducer = (state = initialState, action) => {
     switch (action.type) {
-        case types.SET_PATH:
+        case types.SET_FORMS:
             return {
                 ...state,
-                path: action.path,
+                forms: action.forms,
             }
         default:
             return state

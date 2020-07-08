@@ -1,0 +1,29 @@
+.create-schema-container {
+    .schema-form-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .schema-input {
+        font-size: 17px;
+        line-height: 24px;
+        color: #272727;
+        width: 400px;
+        border-radius: 5px;
+    }
+    .schema-method-title {
+        margin: unset;
+        padding-bottom: 10px;
+    }
+    .schema-description {
+        opacity: 0.75;
+    }
+    .divider {
+        margin-top: 70px;
+        border-color: #c4c4c4;
+    }
+    .schema-buttons-container {
+        padding: 35px 60px;
+        display: flex;
+        justify-content: space-between;
+    }
+}

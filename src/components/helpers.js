@@ -1,1 +1,0 @@
-export const isMainTab = (p, machStr) => p.includes(machStr);

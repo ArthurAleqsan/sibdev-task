@@ -2,13 +2,11 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { isMainTab } from './helpers';
 import { Modal } from 'antd';
 import { logout } from '../store/user/user.actions';
+import { setPath } from '../store/global/global.actions';
 
-const Header = ({ logout }) => {
-    const path = window.location.pathname;
-    const [activeTab, setActiveTab] = useState(isMainTab(path, 'create') ? 'create' : 'main');
+const Header = ({ logout, path, setPath }) => {
     const [visible, setVisible] = useState(false);
 
     const handleOk = () => {
@@ -27,17 +25,17 @@ const Header = ({ logout }) => {
                     </Link>
                 </div>
                 <nav className='navigation'>
-                    <div className='nav-item' onClick={() => setActiveTab('main')}>
+                    <div className='nav-item' onClick={() => setPath('/')}>
                         <Link to='/'>
                             Мои Схемы
                         </Link>
-                        <div className={activeTab == 'main' ? 'divider active-divider' : 'divider'}></div>
+                        <div className={path == '/' ? 'divider active-divider' : 'divider'}></div>
                     </div>
-                    <div className='nav-item' onClick={() => setActiveTab('create')}>
+                    <div className='nav-item' onClick={() => setPath('/create')}>
                         <Link to='/create'>
                             Создать схему
                         </Link>
-                        <div className={activeTab == 'create' ? 'divider active-divider' : 'divider'}></div>
+                        <div className={path == '/create' ? 'divider active-divider' : 'divider'}></div>
                     </div>
                 </nav>
                 <div className='sign-out-btn'>
@@ -57,11 +55,19 @@ const Header = ({ logout }) => {
 };
 Header.propTypes = {
     logout: PropTypes.func.isRequired,
+    setPath: PropTypes.func.isRequired,
+    path: PropTypes.string.isRequired,
 };
+const mapStateToProps = state => {
+    return {
+        path: state.global.path
+    }
+}
 const mapDispatchToProps = dispatch => {
     return {
         logout: () => dispatch(logout()),
+        setPath: (path) => dispatch(setPath(path)),
     }
 };
 
-export default connect(null, mapDispatchToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

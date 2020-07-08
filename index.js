@@ -13,6 +13,9 @@ app.use('/auth', (req, res, next) => {
 app.use('/users', (req, res, next) => {
     next();
 }, proxy({ target: API_URL, changeOrigin: true, }));
+app.use('/form', (req, res, next) => {
+    next();
+}, proxy({ target: API_URL, changeOrigin: true, }));
 
 
 app.use('/public', express.static('public'));
