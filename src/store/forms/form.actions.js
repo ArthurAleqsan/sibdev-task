@@ -17,10 +17,16 @@ export const getForms = () => {
 };
 
 export const createForm = (data) => {
-    return (dispatch) => {
-        FormService.createForm(data)
-        .then(res => {
-            console.log(res);
+    const schema = {
+        ...data, fields: data.fields.map(f => {
+            delete f.id;
+            return f;
         })
+    };
+    return (dispatch) => {
+        FormService.createForm({ schema })
+            .then(res => {
+                console.log(res);
+            })
     }
 }

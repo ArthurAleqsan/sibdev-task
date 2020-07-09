@@ -1,0 +1,20 @@
+.simple-panel {
+    .schema-form-item {
+        margin-bottom: 40px;
+    }
+    .select-container {
+        .ant-form-item-control-input {
+            width: 400px;
+        }
+    }
+    .validation-switch-container {
+        .switch {
+            margin-right: 5px;
+        }
+    }
+    .validation-fields-container {
+        .small-input {
+            width: 100%;
+        }
+    }
+}
