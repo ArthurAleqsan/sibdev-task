@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
-import { Form, Input, Divider, Collapse, Button } from 'antd';
+import React, { useState, Fragment } from 'react';
+import { Form, Input, Divider, Collapse, Button, message } from 'antd';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { createForm } from '../../store/forms/form.actions';
 import SimplePanel from '../../components/SimplePanel';
+import { validateForm } from './validator';
+import { removeFromArray } from '../../utils/helpers';
 
 const CreateSchema = ({ createSchema }) => {
     const BASIC_FIELDS_SCHEMA = {
@@ -30,9 +32,27 @@ const CreateSchema = ({ createSchema }) => {
         setForm({ ...form, fields: newMethodFields });
         console.log(newMethodFields);
     };
+    const handleRemove = (e, id) => {
+        e.stopPropagation();
+        const newFormFields = removeFromArray(form.fields, item => item.id == id);
+        setForm({...form, fields: newFormFields});
+    }
+    console.log(form);
     const handleSave = () => {
-        createSchema(form);
+        validateForm(form);
+        if (form.type == 'select' && form.options) {
+            const options = form.options.filter(option => option.key && option.value);
+            if (options.length > 0) {
+                createSchema({ ...form, options });
+            } else {
+                return message.error('Надо минимум одно значение');
+            }
+        } else {
+            createSchema(form);
+        }
     };
+
+    const genExtra = (id) => (<img src='/assets/images/bin.png' style={{ width: 20, height: 20 }} onClick={(e) => handleRemove(e, id)} />)
 
 
     return (
@@ -51,9 +71,9 @@ const CreateSchema = ({ createSchema }) => {
                     <Divider className='divider' />
                     <p className='container-title schema-method-title'>Свойства схемы</p>
                     <h4 className='schema-description'>Схема должна содержать хотя бы одно свойство</h4>
-                    <Collapse defaultActiveKey={['1']}>
+                    <Collapse defaultActiveKey={['1']} >
                         {form.fields.map((data, i) => {
-                            return <Collapse.Panel header={`Свойство ${i + 1}`} key={i + 1}>
+                            return <Collapse.Panel key={i} header={`Свойство ${i + 1}`} extra={genExtra(i + 1)}>
                                 <SimplePanel data={data} setForm={setForm} form={form} />
                             </Collapse.Panel>
                         })}
@@ -71,15 +91,10 @@ const CreateSchema = ({ createSchema }) => {
 CreateSchema.propTypes = {
     createSchema: PropTypes.func.isRequired,
 };
-const mapStateToProps = state => {
-    return {
-
-    }
-};
 const mapDispatchToProps = dispatch => {
     return {
         createSchema: (data) => dispatch(createForm(data)),
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateSchema);
+export default connect(null, mapDispatchToProps)(CreateSchema);
