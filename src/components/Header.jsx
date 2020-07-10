@@ -41,7 +41,7 @@ const Header = ({ logout, path, setPath }) => {
                 <div className='sign-out-btn'>
                     <span onClick = {()=> setVisible(true)}>Выйти</span>
                     <Modal
-                        title='Are you want to logout?'
+                        title='Вы действительно хотите выйти?'
                         visible={visible}
                         onOk={handleOk}
                         onCancel={handleCancel}

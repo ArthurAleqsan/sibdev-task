@@ -1,5 +1,33 @@
 .schemas-container {
     .schemas-table {
         margin-bottom: 40px;
+        .simple-schema {
+            background-color: #fff;
+            padding: 10px;
+            border-bottom: 1px solid #f1f1f1;
+            color: #000;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+            display: flex;
+            .name-container {
+                flex: 0.9;
+            }
+            .buttons-container {
+                flex: 0.1;
+                font-size: 12px;
+                :first-child {
+                    color: #1390E5;
+                    cursor: pointer;
+                }
+                :last-child {
+                    margin-left: 7px;
+                    color: #FF0000; 
+                    cursor: pointer;
+                }
+            }
+        }
+        .simple-schema:hover {
+            background-color: #f1f1f1;
+        }
     }
 }

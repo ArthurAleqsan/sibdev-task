@@ -2,6 +2,7 @@ import * as types from './../types';
 
 const initialState = {
     forms: null,
+    task: null,
 };
 
 export const formReducer = (state = initialState, action) => {
@@ -10,6 +11,11 @@ export const formReducer = (state = initialState, action) => {
             return {
                 ...state,
                 forms: action.forms,
+            }
+        case types.SET_TASK:
+            return {
+                ...state,
+                task: action.task,
             }
         default:
             return state

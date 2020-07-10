@@ -62,7 +62,12 @@ const SimplePanel = ({ setForm, data, form }) => {
                     />
                 </Form.Item>
                 <Form.Item label="Поле для отображения" name="type" required className='schema-form-item select-container'>
-                    <Select placeholder='Выберите поле для отображения' className='schema-input' onChange={handleSelectChange}>
+                    <Select
+                        placeholder='Выберите поле для отображения'
+                        className='schema-input'
+                        onChange={handleSelectChange}
+                        defaultValue={form.type}
+                    >
                         {OPTIONS.map((option) => {
                             return <Select.Option key={option.id} value={option.type}>
                                 {option.name}
@@ -74,7 +79,7 @@ const SimplePanel = ({ setForm, data, form }) => {
                     <Form.List name="names">
                         {(fields, { add, remove }) => {
                             return (
-                                <div className = 'option-container'>
+                                <div className='option-container'>
                                     {fields.map((field, i) => (<Fragment key={field.key}>
                                         <Form.Item
                                             required={false}
@@ -105,7 +110,7 @@ const SimplePanel = ({ setForm, data, form }) => {
                                                 }}
                                             >x</div>
                                         </Form.Item>
-                                        <Form.Item className ='schema-last-input-container'>
+                                        <Form.Item className='schema-last-input-container'>
                                             <Input
                                                 placeholder='значение опции'
                                                 className='schema-input'
@@ -142,7 +147,7 @@ const SimplePanel = ({ setForm, data, form }) => {
                     </div>
                     {data.validation.required && <div className='validation-fields-container'>
                         <Row>
-                            {(data.type == 'number' || data.type =='string' || data.type =='password') && <Fragment>
+                            {(data.type == 'number' || data.type == 'string' || data.type == 'password') && <Fragment>
                                 <Col span={11}>
                                     <Form.Item label="Мин. кол-во символов" className='schema-form-item'>
                                         <Input
@@ -164,7 +169,7 @@ const SimplePanel = ({ setForm, data, form }) => {
                                     </Form.Item>
                                 </Col>
                             </Fragment>}
-                            {(data.type =='string' || data.type =='password') && <Col span={24}>
+                            {(data.type == 'string' || data.type == 'password') && <Col span={24}>
                                 <Form.Item label="Шаблон ввода" className='schema-form-item'>
                                     <Input
                                         className='schema-input'
