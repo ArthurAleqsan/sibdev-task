@@ -30,7 +30,7 @@ export const createForm = (data) => {
                 const { status, json } = res;
                 if (FormService.isOkStatus(status)) {
                     const { forms } = getState().forms;
-                    const newForms = [...forms, json];
+                    const newForms = forms ? [...forms, { schema: json.schema, id: json.id }] : [{ schema: json.schema, id: json.id }];
                     dispatch({
                         type: types.SET_FORMS,
                         forms: newForms,
@@ -56,16 +56,16 @@ export const getTask = (id) => {
 export const editTask = (id, schema) => {
     return (dispatch, getState) => {
         FormService.editTask(id, { schema })
-        .then(res => {
-            if(FormService.isOkStatus(res.status)) {
-                const { forms } = getState().forms;
-                const newForms = updateInArray(forms, item => item.id == id, schema); 
-                dispatch({
-                    type: types.SET_FORMS,
-                    forms: newForms,
-                });
-            }
-        })
+            .then(res => {
+                if (FormService.isOkStatus(res.status)) {
+                    const { forms } = getState().forms;
+                    const newForms = updateInArray(forms, item => item.id == id, schema);
+                    dispatch({
+                        type: types.SET_FORMS,
+                        forms: newForms,
+                    });
+                }
+            })
     }
 }
 export const removeTask = (id) => {

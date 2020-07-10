@@ -1,11 +1,7 @@
 import { message } from "antd"
 
 export const validateForm = (form) => {
-    if (!form.name) {
-        return message.error('Название схемы обязательно.');
-    } else if (!form.fields[0]) {
-        return message.error('Опишите хотя бы одно свойство.');
-    }
+
     form.fields.map(fieldsObj => {
 
         if (!fieldsObj.key) {
@@ -18,5 +14,11 @@ export const validateForm = (form) => {
             return 'ok';
         }
     });
-
+    if (!form.name) {
+        return message.error('Название схемы обязательно.');
+    } else if (!form.fields[0]) {
+        return message.error('Опишите хотя бы одно свойство.');
+    } else {
+        return 'ok';
+    }
 }

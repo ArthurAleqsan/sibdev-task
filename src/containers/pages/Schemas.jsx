@@ -28,7 +28,6 @@ const Schemas = ({ getForms, forms, history, setPath, removeTask }) => {
         setPath();
         history.push(id ? `/task/${id}` : '/create');
     }
-    console.log(forms);
     return (
         <div className='schemas-container'>
             <div className='private-container'>

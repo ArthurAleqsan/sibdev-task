@@ -37,6 +37,7 @@ const SimplePanel = ({ setForm, data, form }) => {
     }
     const handleSelectDropDown = () => {
         setDropDownItems([...dropDownItems, initialItem]);
+        const newFields = updateInArray();
         setForm({ ...form, options: form.options ? [...form.options, initialItem] : [initialItem] });
     };
 

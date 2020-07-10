@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { createForm, getTask, editTask } from '../../store/forms/form.actions';
 import SimplePanel from '../../components/SimplePanel';
 import { validateForm } from './validator';
-import { removeFromArray } from '../../utils/helpers';
+import { removeFromArray, updateInArray } from '../../utils/helpers';
 
 const CreateSchema = ({ createSchema, getTask, task, editTask }) => {
     const idFromEdit = window.location.pathname.includes('/edit/');
@@ -52,24 +52,31 @@ const CreateSchema = ({ createSchema, getTask, task, editTask }) => {
         setForm({ ...form, fields: newFormFields });
     }
     const handleSave = () => {
+        let options;
         if (validateForm(form) == 'ok') {
-            console.log(8888);
-            if (form.type == 'select' && form.options) {
-                const options = form.options.filter(option => option.key && option.value);
-                if (options.length > 0) {
-                    idFromEdit ? editTask(id, { ...form, options }) : createSchema({ ...form, options });
-                } else {
-                    return message.error('Надо минимум одно значение');
+            form.fields.map(item => {
+                if (item.type == 'select' && item.options) {
+                    options = item.options.filter(option => {
+                        if (option.key && option.value) {
+                            return option;
+                        }
+                    });
+                    if (options.length > 0) {
+                        const newFormFields = updateInArray(form.fields, f => f.id == item.id, () => ({ ...item, options }))
+                        idFromEdit ? editTask(id, { ...form, fields: newFormFields }) : createSchema({ ...form, fields: newFormFields });
+                    } else {
+                        return message.error('Надо минимум одно значение');
+                    }
                 }
-            } else {
-                idFromEdit ? editTask(id, form) : createSchema(form);
-            }
+            })
+
+        } else {
+            idFromEdit ? editTask(id, form) : createSchema(form);
         }
     };
 
     const genExtra = (id) => (<img src='/assets/images/bin.png' style={{ width: 20, height: 20 }} onClick={(e) => handleRemove(e, id)} />)
 
-    console.log(form);
     return (
         <div className='create-schema-container'>
             {form ? <div className='private-container'>
