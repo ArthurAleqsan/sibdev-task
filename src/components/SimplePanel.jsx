@@ -34,11 +34,11 @@ const SimplePanel = ({ setForm, data, form }) => {
     };
     const handleSetInitialItem = (value, key) => {
         setInitialItem({ ...initialItem, [key]: value });
-    }
+    };
     const handleSelectDropDown = () => {
         setDropDownItems([...dropDownItems, initialItem]);
-        const newFields = updateInArray();
-        setForm({ ...form, options: form.options ? [...form.options, initialItem] : [initialItem] });
+        const newFields = updateInArray(form.fields, item => item.id == data.id, () => (data.options ? { ...data, options: [...data.options, initialItem] } : { ...data, options: [initialItem] }));
+        setForm({ ...form, fields: newFields });
     };
 
     return (
@@ -104,9 +104,12 @@ const SimplePanel = ({ setForm, data, form }) => {
                                                     newArray.splice(field.key, 1);
                                                     setDropDownItems(newArray);
 
-                                                    let options = [...form.options];
+                                                    let options = [...data.options];
                                                     options.splice(field.key + 1, 1);
-                                                    setForm({ ...form, options });
+                                                    const fields = updateInArray(form.fields,
+                                                         item => item.id == data.id, 
+                                                         () => ({ ...data, options }));
+                                                    setForm({ ...form, fields });
                                                     remove(field.name);
                                                 }}
                                             >x</div>

@@ -24,9 +24,18 @@ const Schemas = ({ getForms, forms, history, setPath, removeTask }) => {
     const handleCancel = () => {
         setVisible(false);
     };
-    const handleRedirect = (id) => {
-        setPath();
-        history.push(id ? `/task/${id}` : '/create');
+    const handleRedirect = (path, id) => {
+        setPath(path);
+        switch (path) {
+            case 'edit':
+                history.push(`/edit/${id}`);
+                break;
+            case 'create':
+                history.push('/create');
+                break;
+            case 'view':
+                history.push(`/task/${id}`);
+        }
     }
     return (
         <div className='schemas-container'>
@@ -38,19 +47,18 @@ const Schemas = ({ getForms, forms, history, setPath, removeTask }) => {
                             return <div>Нет схем</div>
                         }
                         return <div key={form.id} className='simple-schema'>
-                            <div onClick={() => handleRedirect(form.id)} className='name-container'>
+                            <div onClick={() => handleRedirect('view', form.id)} className='name-container'>
                                 <span>{form.schema.name}</span>
                             </div>
                             <div className='buttons-container'>
-                                <span onClick = {() => history.push(`/edit/${form.id}`)}>Изменить</span>
-                                <span onClick = {() => openModal(form.id)}>Удалить</span>
+                                <span onClick={() => handleRedirect('edit', form.id)}>Изменить</span>
+                                <span onClick={() => openModal(form.id)}>Удалить</span>
                             </div>
-
                         </div>
                     }) : <Spin />
                     }
                 </div>
-                <Button type='primary' onClick={handleRedirect}>Создать схему</Button>
+                <Button type='primary' onClick={() => handleRedirect('create')}>Создать схему</Button>
             </div>
             <Modal
                 title='Вы действительно хотите удалить схему?'
@@ -76,8 +84,8 @@ const mapStateToProps = state => {
 const mapDispatchToprops = dispatch => {
     return {
         getForms: () => dispatch(getForms()),
-        setPath: () => dispatch(setPath('/create')),
-        removeTask: (id) => dispatch(removeTask(id))
+        setPath: (path) => dispatch(setPath(path)),
+        removeTask: (id) => dispatch(removeTask(id)),
     }
 };
 export default connect(mapStateToProps, mapDispatchToprops)(withRouter(Schemas));

@@ -20,7 +20,7 @@ const Header = ({ logout, path, setPath }) => {
         <header className='main-header'>
             <div className='private-container'>
                 <div className='logo-container'>
-                    <Link to='/'>
+                    <Link to='/' onClick = {() => setPath('/')}>
                         <img src='/assets/images/sibdev-logo.png' className='header-logo' />
                     </Link>
                 </div>
